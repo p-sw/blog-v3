@@ -29,6 +29,22 @@ export async function createPost(
     `Created post ${createdPost.id} - ${published ? "" : "not"} published, ${seriesId ? "series " + seriesId : "not series"}`
   );
 
+  await db.commentDelta.create({
+    data: {
+      inc_num: 0,
+      postId: createdPost.id,
+    },
+  });
+  logger.info(`Initialized comment delta for post ${createdPost.id}`);
+
+  await db.viewDelta.create({
+    data: {
+      inc_num: 0,
+      postId: createdPost.id,
+    },
+  });
+  logger.info(`Initialized view delta for post ${createdPost.id}`);
+
   return {
     postId: createdPost.id,
   };
