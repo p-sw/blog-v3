@@ -8,22 +8,25 @@ import { Logger } from "winston";
  * @out 관리자 정보 확인 결과
  */
 export async function validateAdminInfo(
-  { username, password }: validateAdminInfo.In,
-  logger: Logger
+  logger: Logger,
+  { username, password }: validateAdminInfo.In
 ): Promise<validateAdminInfo.Out> {
   const adminUser = process.env.ADMIN_USERNAME;
   const adminPass = process.env.ADMIN_PASSWORD;
   if (!adminUser || !adminPass) {
+    logger.error(`System admin information is not set.`);
     return {
       valid: false,
     };
   }
 
   if (username === adminUser && password === adminPass) {
+    logger.info(`Username and password are both correct.`);
     return {
       valid: true,
     };
   }
+  logger.warn(`Username or password is invalid.`);
 
   return {
     valid: false,
@@ -49,6 +52,7 @@ export async function createSession(
   logger: Logger
 ): Promise<createSession.Out> {
   const newSession = await db.session.create({});
+  logger.info(`Created new session ${newSession.id}`);
 
   return {
     sessionId: newSession.id,
@@ -67,8 +71,8 @@ export namespace createSession {
  * @out 세션 존재 여부 확인 결과
  */
 export async function checkSession(
-  { sessionId }: checkSession.In,
-  logger: Logger
+  logger: Logger,
+  { sessionId }: checkSession.In
 ): Promise<checkSession.Out> {
   if (!sessionId)
     return {
@@ -105,5 +109,6 @@ export namespace checkSession {
  */
 export async function destroyAllSession(logger: Logger) {
   await db.session.deleteMany({});
+  logger.info(`Deleted all sessions`);
 }
 export namespace destroyAllSession {}

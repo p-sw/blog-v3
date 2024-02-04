@@ -9,17 +9,16 @@ const authModule = new Elysia({ prefix: "auth" })
   .derive(() => createRequestLogger(logger))
   .get("/", async ({ cookie: { session }, logger }) => {
     logger.info(`Checking session validity of ${session.value}`);
-    const valid = await authService.checkSession(
-      { sessionId: session.value },
-      logger
-    );
+    const valid = await authService.checkSession(logger, {
+      sessionId: session.value,
+    });
     logger.info(`${valid.valid} - session valid`);
     return valid;
   })
   .get(
     "/login",
     async ({ body, cookie, logger }) => {
-      const { valid } = await authService.validateAdminInfo(body, logger);
+      const { valid } = await authService.validateAdminInfo(logger, body);
 
       if (!valid) return;
 
