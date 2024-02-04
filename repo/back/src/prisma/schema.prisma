@@ -33,7 +33,8 @@ model Post {
   seriesId    Int?
   series      Series?       @relation(fields: [seriesId], references: [id], onDelete: Cascade)
   published   Boolean       @default(false)
-  publishedAt DateTime      @default(now())
+  createdAt   DateTime      @default(now())
+  publishedAt DateTime?
   updatedAt   DateTime      @updatedAt
 
   tag Post__Tag[]
