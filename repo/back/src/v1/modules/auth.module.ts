@@ -34,10 +34,11 @@ const authModule = new Elysia({ prefix: "auth" })
     },
     {
       body: t.Object({
-        username: t.String({ pattern: "^[a-zA-Z0-9]+$" }),
+        username: t.String({ pattern: "^[a-zA-Z0-9]+$", default: "" }),
         password: t.String({
           pattern:
             "^(?=.*[a-zA-Z])(?=.*d)(?=.*[!@#$%^&*+-_=?])[A-Za-zd!@#$%^&*+-_=?]$",
+          default: "",
         }),
       }),
     }
