@@ -1,0 +1,20 @@
+{
+  "name": "back",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.9.1",
+    "dotenv": "^16.4.1",
+    "elysia": "latest",
+    "hyperid": "^3.2.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "prisma": "^5.9.1"
+  },
+  "module": "src/index.js"
+}
