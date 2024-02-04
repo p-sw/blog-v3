@@ -24,6 +24,11 @@ model PostLocaled {
   short   String
   content String
 
+  published   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  publishedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
   @@id([locale, postId])
 }
 
