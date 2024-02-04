@@ -123,7 +123,7 @@ model Comment {
   name            String
   password        String
   message         String
-  isUpdated       String
+  // isUpdated    createdAt !== updatedAt
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   parentCommentId String?
