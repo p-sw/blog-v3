@@ -82,7 +82,7 @@ export namespace validateAdminInfo {
 export async function createSession(
   logger: Logger
 ): Promise<createSession.Out> {
-  const newSession = await db.session.create({});
+  const newSession = await db.session.create({ data: {} });
   logger.info(`Created new session ${newSession.id}`);
 
   return {
