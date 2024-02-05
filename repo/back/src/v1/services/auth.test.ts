@@ -73,59 +73,39 @@ describe("Admin", () => {
 describe("Session", () => {
   describe("createSession", () => {
     test("Session creation", async () => {
-      try {
-        await auth.createSession(testLogger);
-        expect((await db.session.findFirst())?.id).toBeTruthy();
-      } finally {
-        await db.session.deleteMany();
-      }
+      await auth.createSession(testLogger);
+      expect((await db.session.findFirst())?.id).toBeTruthy();
     });
   });
   describe("checkSession", () => {
     test("Check valid session", async () => {
-      try {
-        const newSession = await db.session.create({ data: {} });
+      const newSession = await db.session.create({ data: {} });
 
-        expect(
-          (await auth.checkSession(testLogger, { sessionId: newSession.id }))
-            .valid
-        ).toBeTrue();
-      } finally {
-        await db.session.deleteMany();
-      }
+      expect(
+        (await auth.checkSession(testLogger, { sessionId: newSession.id }))
+          .valid
+      ).toBeTrue();
     });
     test("Check invalid session", async () => {
-      try {
-        await db.session.create({ data: {} });
+      await db.session.create({ data: {} });
 
-        expect(
-          (await auth.checkSession(testLogger, { sessionId: "invalid" })).valid
-        ).toBeFalse();
-      } finally {
-        await db.session.deleteMany();
-      }
+      expect(
+        (await auth.checkSession(testLogger, { sessionId: "invalid" })).valid
+      ).toBeFalse();
     });
   });
   describe("destroyAllSession", () => {
     test("Destroy when single session", async () => {
-      try {
-        await db.session.create({ data: {} });
+      await db.session.create({ data: {} });
 
-        await auth.destroyAllSession(testLogger);
+      await auth.destroyAllSession(testLogger);
 
-        expect(await db.session.count()).toBe(0);
-      } finally {
-        await db.session.deleteMany();
-      }
+      expect(await db.session.count()).toBe(0);
     });
     test("Destroy when many session", async () => {
-      try {
-        await db.session.createMany({ data: [{}, {}, {}] });
-        await auth.destroyAllSession(testLogger);
-        expect(await db.session.count()).toBe(0);
-      } finally {
-        await db.session.deleteMany();
-      }
+      await db.session.createMany({ data: [{}, {}, {}] });
+      await auth.destroyAllSession(testLogger);
+      expect(await db.session.count()).toBe(0);
     });
   });
 });
