@@ -248,6 +248,64 @@ export namespace updatePost {
 // !SECTION Namespace
 // !SECTION 포스트 수정
 
+// SECTION 포스트 조회수 증가
+// SECTION Function
+/**
+ * * 포스트 조회수 증가
+ *
+ * @in 포스트 ID
+ */
+export async function incrementPostView(
+  logger: Logger,
+  { postId }: incrementPostView.In
+) {
+  const updatedPost = await db.post.update({
+    where: {
+      id: postId,
+    },
+    data: {
+      views: {
+        increment: 1,
+      },
+    },
+    select: {
+      views: true,
+      seriesId: true,
+    },
+  });
+
+  logger.info(`Updated post ${postId} view to ${updatedPost.views}`);
+
+  if (updatedPost.seriesId) {
+    const series = await db.series.update({
+      where: {
+        id: updatedPost.seriesId,
+      },
+      data: {
+        views: {
+          increment: 1,
+        },
+      },
+      select: {
+        views: true,
+      },
+    });
+
+    logger.info(
+      `Found connected series ${updatedPost.seriesId}, incremented series view to ${series.views}`
+    );
+  }
+}
+// !SECTION Function
+// SECTION Namespace
+export namespace incrementPostView {
+  export interface In {
+    postId: number;
+  }
+}
+// !SECTION Namespace
+// !SECTION 포스트 조회수 증가
+
 // !SECTION Update
 /*
 
