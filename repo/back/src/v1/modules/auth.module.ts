@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 import createModuleLogger, { createRequestLogger } from "logger";
-import * as authService from "v1/services/auth.service";
+import { auth } from "v1/services";
 
 const logger = createModuleLogger(1, "Auth");
 
@@ -9,7 +9,7 @@ const authModule = new Elysia({ prefix: "auth" })
   .derive(() => createRequestLogger(logger))
   .get("/", async ({ cookie: { session }, logger }) => {
     logger.info(`Checking session validity of ${session.value}`);
-    const valid = await authService.checkSession(logger, {
+    const valid = await auth.checkSession(logger, {
       sessionId: session.value,
     });
     logger.info(`${valid.valid} - session valid`);
@@ -18,11 +18,11 @@ const authModule = new Elysia({ prefix: "auth" })
   .get(
     "/login",
     async ({ body, cookie, logger }) => {
-      const { valid } = await authService.validateAdminInfo(logger, body);
+      const { valid } = await auth.validateAdminInfo(logger, body);
 
       if (!valid) return;
 
-      const { sessionId } = await authService.createSession(logger);
+      const { sessionId } = await auth.createSession(logger);
 
       cookie.session.set({
         sameSite: "lax",
