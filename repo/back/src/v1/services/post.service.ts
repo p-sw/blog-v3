@@ -105,13 +105,41 @@ export async function getPost(logger: Logger, In: any): Promise<any> {
     return post;
   } else if ("many" in In) {
     const q = In.many;
-    logger.info(`Searching many posts (page ${q.page} limit ${q.limit})`);
-    const postCount = await db.post.count({
-      where: {
-        seriesId: q.seriesId,
-        published: q.published,
-      },
-    });
+    logger.info(
+      `Searching many posts (page ${q.page} limit ${q.limit} ${q.tags ? "tags " + q.tags.length : ""})`
+    );
+    const postCount = q.tags
+      ? (
+          await db.post.findMany({
+            where: {
+              seriesId: q.seriesId,
+              published: q.published,
+              tag: {
+                some: {
+                  tagId: {
+                    in: q.tags,
+                  },
+                },
+              },
+            },
+            select: {
+              tag: {
+                select: {
+                  tagId: true,
+                },
+              },
+            },
+          })
+        ).filter(({ tag }) => {
+          const tags = tag.map(({ tagId }) => tagId);
+          return q.tags.every((qtag: number) => tags.includes(qtag));
+        }).length
+      : await db.post.count({
+          where: {
+            seriesId: q.seriesId,
+            published: q.published,
+          },
+        });
     const maxPage = Math.ceil(postCount / q.limit);
     logger.info(
       `Found posts ${
@@ -125,30 +153,88 @@ export async function getPost(logger: Logger, In: any): Promise<any> {
       }: ${postCount} posts (max ${maxPage} page with limit ${q.limit})`
     );
 
-    const posts = await db.post.findMany({
-      where: {
-        seriesId: In.many.seriesId,
-        published: In.many.published,
-      },
-      orderBy: In.many.sortby?.updatedAt
-        ? {
-            updatedAt: In.many.sortby.updatedAt
-              ? (<getPost.SortOrderDict>{
-                  youngest_first: "desc",
-                  oldest_first: "asc",
-                })[In.many.sortby.updatedAt as getPost.ManySortUpdatedAt]
-              : undefined,
-            views: In.many.sortby.views
-              ? (<getPost.SortOrderDict>{
-                  many_first: "desc",
-                  few_first: "asc",
-                })[In.many.sortby.views as getPost.ManySortViews]
-              : undefined,
-          }
-        : undefined,
-      take: In.many.limit,
-      skip: In.many.page * In.many.limit,
-    });
+    let posts: Prisma.Post[] = [];
+
+    const orderBy = q.sortby?.updatedAt
+      ? {
+          updatedAt: q.sortby.updatedAt
+            ? (<getPost.SortOrderDict>{
+                youngest_first: "desc",
+                oldest_first: "asc",
+              })[q.sortby.updatedAt as getPost.ManySortUpdatedAt]
+            : undefined,
+          views: q.sortby.views
+            ? (<getPost.SortOrderDict>{
+                many_first: "desc",
+                few_first: "asc",
+              })[q.sortby.views as getPost.ManySortViews]
+            : undefined,
+        }
+      : undefined;
+
+    if (q.tags) {
+      logger.info(`Trying tag filtering`);
+      // maxPage === 0 (postCount === 0), q.page === 1 case
+      let tried = 0;
+      while (
+        (q.page >= maxPage ? postCount % q.limit : q.limit) > posts.length
+      ) {
+        const foundItems = await db.post.findMany({
+          where: {
+            seriesId: q.seriesId,
+            published: q.published,
+            tag: {
+              some: {
+                tagId: {
+                  in: q.tags,
+                },
+              },
+            },
+          },
+          orderBy,
+          include: {
+            tag: {
+              select: {
+                tagId: true,
+              },
+            },
+          },
+          take: q.limit,
+          skip: q.page * q.limit + tried,
+        });
+        logger.info(
+          `Found ${foundItems.length}, tried ${tried + foundItems.length}`
+        );
+        if (foundItems.length <= 0) {
+          logger.warn(
+            `Unexpected length ${foundItems.length}, expected at least 1. breaking loop`
+          );
+          break;
+        }
+        tried += foundItems.length;
+        const filteredItems = foundItems.filter(({ tag }) => {
+          const tags = tag.map(({ tagId }) => tagId);
+          return q.tags.every((qtag: number) => tags.includes(qtag));
+        });
+        posts.push(...filteredItems);
+        logger.info(
+          `Filtered result ${filteredItems.length} posts, total post length ${posts.length}`
+        );
+      }
+      logger.info(
+        `Complete loop, final posts ${posts.length}, ideal maximum ${q.page >= maxPage ? postCount % q.limit : q.limit}`
+      );
+    } else {
+      posts = await db.post.findMany({
+        where: {
+          seriesId: q.seriesId,
+          published: q.published,
+        },
+        orderBy,
+        take: q.limit,
+        skip: q.page * q.limit,
+      });
+    }
 
     logger.info(`total ${posts.length} posts`);
     return { posts, maxPage };
