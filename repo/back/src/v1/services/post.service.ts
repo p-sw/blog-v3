@@ -175,10 +175,10 @@ export namespace getPost {
       tags?: number[];
       sortby?:
         | {
-            updatedAt?: ManySortUpdatedAt;
+            updatedAt: ManySortUpdatedAt;
           }
         | {
-            views?: ManySortViews;
+            views: ManySortViews;
           };
     };
   }
