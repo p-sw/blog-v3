@@ -2,11 +2,15 @@ import db, { Prisma } from "prisma";
 import { Logger } from "winston";
 /*
 
-
+------------------------------
 
 */
-// SECTION 포스트 CRUD
+// SECTION 포스트
+/*
+
+*/
 // SECTION Create
+
 // SECTION 포스트 생성
 // SECTION Function
 /**
@@ -51,7 +55,7 @@ export async function createPost(
     postId: createdPost.id,
   };
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace createPost {
   export interface In {
@@ -63,15 +67,15 @@ export namespace createPost {
     postId: number;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 생성
+
+// !SECTION Create
 /*
-
-
 
 */
 // SECTION Read
+
 // SECTION 포스트 탐색
 // SECTION Function
 /**
@@ -151,7 +155,7 @@ export async function getPost(logger: Logger, In: any): Promise<any> {
   }
   return null;
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace getPost {
   export type SortOrderDict = Record<string, "desc" | "asc">;
@@ -181,15 +185,15 @@ export namespace getPost {
   export type UniqueOut = Prisma.Post | null;
   export type ManyOut = { posts: Prisma.Post[]; maxPage: number };
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 탐색
+
+// !SECTION Read
 /*
-
-
 
 */
 // SECTION Update
+
 // SECTION 포스트 수정
 // SECTION Function
 /**
@@ -232,7 +236,7 @@ export async function updatePost(
   });
   logger.info(`Updated post ${postId}`);
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace updatePost {
   export interface In {
@@ -241,15 +245,15 @@ export namespace updatePost {
     published?: boolean;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 수정
+
+// !SECTION Update
 /*
-
-
 
 */
 // SECTION Delete
+
 // SECTION 포스트 삭제
 // SECTION Function
 /**
@@ -265,24 +269,29 @@ export async function deletePost(logger: Logger, { postId }: deletePost.In) {
   await db.post.delete({ where: { id: postId } });
   logger.info(`Deleted post ${postId}`);
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace deletePost {
   export interface In {
     postId: number;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 삭제
+
+// !SECTION Delete
+// !SECTION 포스트
 /*
 
-
+------------------------------
 
 */
-// SECTION 포스트 컨텐츠 CRUD
+// SECTION 포스트 컨텐츠
+/*
+
+*/
 // SECTION Create
+
 // SECTION 포스트 컨텐츠 생성
 // SECTION Function
 /**
@@ -318,7 +327,7 @@ export async function createPostContent(
 
   return createdPostContent;
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace createPostContent {
   export interface In {
@@ -336,15 +345,15 @@ export namespace createPostContent {
     locale: Prisma.Locale;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 컨텐츠 생성
+
+// !SECTION Create
 /*
-
-
 
 */
 // SECTION Read
+
 // SECTION 포스트 컨텐츠 탐색
 // SECTION Function
 /**
@@ -374,7 +383,7 @@ export async function readPostContent(
 
   return post;
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace readPostContent {
   export interface In {
@@ -383,15 +392,15 @@ export namespace readPostContent {
   }
   export type Out = Prisma.PostLocaled | null;
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 컨텐츠 탐색
+
+// !SECTION Read
 /*
-
-
 
 */
 // SECTION Update
+
 // SECTION 포스트 컨텐츠 수정
 // SECTION Function
 /**
@@ -437,7 +446,7 @@ export async function updatePostContent(
   });
   logger.info(`Updated post ${postId} content ${locale}`);
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace updatePostContent {
   export interface In {
@@ -451,15 +460,15 @@ export namespace updatePostContent {
     published?: boolean;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 컨텐츠 수정
+
+// !SECTION Update
 /*
-
-
 
 */
 // SECTION Delete
+
 // SECTION 포스트 컨텐츠 삭제
 // SECTION Function
 /**
@@ -493,7 +502,7 @@ export async function deletePostContent(
     logger.info(`Deleted all content in post ${postId}`);
   }
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace deletePostContent {
   export interface In {
@@ -501,7 +510,8 @@ export namespace deletePostContent {
     locale?: Prisma.Locale;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 포스트 컨텐츠 삭제
+
+// !SECTION Delete
+// !SECTION 포스트 컨텐츠

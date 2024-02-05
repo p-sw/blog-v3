@@ -2,11 +2,15 @@ import db from "prisma";
 import { Logger } from "winston";
 /*
 
-
+------------------------------
 
 */
 // SECTION 어드민
+/*
+
+*/
 // SECTION Read
+
 // SECTION 관리자 정보 유효성 확인
 // SECTION Function
 /**
@@ -40,7 +44,7 @@ export async function validateAdminInfo(
     valid: false,
   };
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace validateAdminInfo {
   export interface In {
@@ -52,17 +56,22 @@ export namespace validateAdminInfo {
     valid: boolean;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 관리자 정보 유효성 확인
+
+// !SECTION Read
+// !SECTION 어드민
 /*
 
-
+------------------------------
 
 */
 // SECTION 세션
+/*
+
+*/
 // SECTION Create
+
 // SECTION 관리자 세션 생성
 // SECTION Function
 /**
@@ -80,22 +89,22 @@ export async function createSession(
     sessionId: newSession.id,
   };
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace createSession {
   export interface Out {
     sessionId: string;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 관리자 세션 생성
+
+// !SECTION Create
 /*
-
-
 
 */
 // SECTION Read
+
 // SECTION 세션 유효성 확인
 // SECTION Function
 /**
@@ -127,7 +136,7 @@ export async function checkSession(
     valid: !!dbSession,
   };
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace checkSession {
   export interface In {
@@ -138,15 +147,15 @@ export namespace checkSession {
     valid: boolean;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 세션 유효성 확인
+
+// !SECTION Read
 /*
-
-
 
 */
 // SECTION Delete
+
 // SECTION 모든 관리자 세션 파기
 // SECTION Function
 /**
@@ -159,7 +168,8 @@ export async function destroyAllSession(logger: Logger) {
 // !SECTION
 // SECTION Namespace
 export namespace destroyAllSession {}
-// !SECTION
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 모든 관리자 세션 파기
+
+// !SECTION Delete
+// !SECTION 세션

@@ -2,11 +2,15 @@ import db, { Prisma } from "prisma";
 import { Logger } from "winston";
 /*
 
-
+------------------------------
 
 */
 // SECTION 댓글
+/*
+
+*/
 // SECTION Create
+
 // SECTION 댓글 생성
 // SECTION Function
 /**
@@ -34,7 +38,7 @@ export async function createComment(
 
   return createdComment;
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace createComment {
   export interface In {
@@ -49,15 +53,15 @@ export namespace createComment {
     id: string;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 댓글 생성
+
+// !SECTION Create
 /*
-
-
 
 */
 // SECTION Read
+
 // SECTION 댓글 탐색
 // SECTION Function
 /**
@@ -106,7 +110,7 @@ export async function getComments(
     maxPage,
   };
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace getComments {
   export type SortBy = "oldest_first" | "youngest_first";
@@ -124,15 +128,15 @@ export namespace getComments {
     maxPage: number;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 댓글 탐색
+
+// !SECTION Read
 /*
-
-
 
 */
 // SECTION Update
+
 // SECTION 댓글 수정
 // SECTION Function
 /**
@@ -177,7 +181,7 @@ export async function updateComment(
     id: updatedComment.id,
   };
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace updateComment {
   export interface In {
@@ -190,15 +194,15 @@ export namespace updateComment {
     id: string;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 댓글 수정
+
+// !SECTION Update
 /*
-
-
 
 */
 // SECTION Delete
+
 // SECTION 댓글 삭제
 // SECTION Function
 /**
@@ -252,7 +256,7 @@ export async function deleteComment(logger: Logger, In: any): Promise<any> {
     };
   }
 }
-// !SECTION
+// !SECTION Function
 // SECTION Namespace
 export namespace deleteComment {
   export interface UniqueIn {
@@ -266,7 +270,8 @@ export namespace deleteComment {
     password: boolean;
   }
 }
-// !SECTION
-// !SECTION
-// !SECTION
-// !SECTION
+// !SECTION Namespace
+// !SECTION 댓글 삭제
+
+// !SECTION Delete
+// !SECTION 댓글
