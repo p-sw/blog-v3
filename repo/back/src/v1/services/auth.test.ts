@@ -4,9 +4,12 @@ import { createGlobalLogger } from "logger";
 import { config } from "dotenv";
 import db from "prisma";
 
-const testLogger = createGlobalLogger("AuthTestLogger");
-
 config();
+
+const testLogger = createGlobalLogger(
+  "AuthTestLogger",
+  process.env.TEST_LOG !== "true"
+);
 
 const adminUsername = process.env.ADMIN_USERNAME;
 const adminPassword = process.env.ADMIN_PASSWORD;

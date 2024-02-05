@@ -8,7 +8,7 @@ const globalFormatter = printf(({ level, message, label, timestamp }) => {
   return `${timestamp} [${label}] ${level}: ${message}`;
 });
 
-export function createGlobalLogger(name: string) {
+export function createGlobalLogger(name: string, silent: boolean = false) {
   return createLogger({
     format: combine(
       colorize(),
@@ -24,6 +24,7 @@ export function createGlobalLogger(name: string) {
       new transports.File({ filename: "logs/exception.log" }),
     ],
     exitOnError: false,
+    silent,
   });
 }
 
