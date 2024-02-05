@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { beforeAll, beforeEach, describe, expect, test } from "bun:test";
 import { auth } from ".";
 import { createGlobalLogger } from "logger";
 import { config } from "dotenv";
@@ -11,9 +11,16 @@ const testLogger = createGlobalLogger(
   process.env.TEST_LOG !== "true"
 );
 
-const adminUsername = process.env.ADMIN_USERNAME;
-const adminPassword = process.env.ADMIN_PASSWORD;
-if (!adminUsername || !adminPassword) throw new Error("admin info not set");
+const adminUsername = "TEST_ADMIN_USERNAME";
+const adminPassword = "TEST_ADMIN_PASSWORD";
+
+beforeAll(async () => {
+  process.env["ADMIN_USERNAME"] = adminUsername;
+  process.env["ADMIN_PASSWORD"] = adminPassword;
+});
+beforeEach(async () => {
+  await db.session.deleteMany();
+});
 
 describe("Admin", () => {
   describe("validateAdminInfo", () => {
