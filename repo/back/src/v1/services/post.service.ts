@@ -7,6 +7,8 @@ import { Logger } from "winston";
 */
 // SECTION 포스트 CRUD
 // SECTION Create
+// SECTION 포스트 생성
+// SECTION Function
 /**
  * * 포스트 생성
  *
@@ -49,7 +51,8 @@ export async function createPost(
     postId: createdPost.id,
   };
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace createPost {
   export interface In {
     seriesId?: number;
@@ -61,12 +64,16 @@ export namespace createPost {
   }
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Read
+// SECTION 포스트 탐색
+// SECTION Function
 /**
  * * 포스트 탐색
  *
@@ -144,6 +151,8 @@ export async function getPost(logger: Logger, In: any): Promise<any> {
   }
   return null;
 }
+// !SECTION
+// SECTION Namespace
 export namespace getPost {
   export type SortOrderDict = Record<string, "desc" | "asc">;
   export type ManySortUpdatedAt = "youngest_first" | "oldest_first";
@@ -173,12 +182,16 @@ export namespace getPost {
   export type ManyOut = { posts: Prisma.Post[]; maxPage: number };
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Update
+// SECTION 포스트 수정
+// SECTION Function
 /**
  * * 포스트 수정
  *
@@ -219,7 +232,8 @@ export async function updatePost(
   });
   logger.info(`Updated post ${postId}`);
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace updatePost {
   export interface In {
     postId: number;
@@ -228,12 +242,16 @@ export namespace updatePost {
   }
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Delete
+// SECTION 포스트 삭제
+// SECTION Function
 /**
  * * 포스트 삭제
  *
@@ -247,12 +265,15 @@ export async function deletePost(logger: Logger, { postId }: deletePost.In) {
   await db.post.delete({ where: { id: postId } });
   logger.info(`Deleted post ${postId}`);
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace deletePost {
   export interface In {
     postId: number;
   }
 }
+// !SECTION
+// !SECTION
 // !SECTION
 // !SECTION
 /*
@@ -262,6 +283,8 @@ export namespace deletePost {
 */
 // SECTION 포스트 컨텐츠 CRUD
 // SECTION Create
+// SECTION 포스트 컨텐츠 생성
+// SECTION Function
 /**
  * * 포스트 컨텐츠 생성
  *
@@ -295,7 +318,8 @@ export async function createPostContent(
 
   return createdPostContent;
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace createPostContent {
   export interface In {
     postId: number;
@@ -313,12 +337,16 @@ export namespace createPostContent {
   }
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Read
+// SECTION 포스트 컨텐츠 탐색
+// SECTION Function
 /**
  * * 포스트 컨텐츠 탐색
  *
@@ -346,7 +374,8 @@ export async function readPostContent(
 
   return post;
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace readPostContent {
   export interface In {
     postId: number;
@@ -355,12 +384,16 @@ export namespace readPostContent {
   export type Out = Prisma.PostLocaled | null;
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Update
+// SECTION 포스트 컨텐츠 수정
+// SECTION Function
 /**
  * * 포스트 컨텐츠 수정
  *
@@ -404,7 +437,8 @@ export async function updatePostContent(
   });
   logger.info(`Updated post ${postId} content ${locale}`);
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace updatePostContent {
   export interface In {
     postId: number;
@@ -418,12 +452,16 @@ export namespace updatePostContent {
   }
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Delete
+// SECTION 포스트 컨텐츠 삭제
+// SECTION Function
 /**
  * * 포스트 컨텐츠 삭제
  *
@@ -455,12 +493,15 @@ export async function deletePostContent(
     logger.info(`Deleted all content in post ${postId}`);
   }
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace deletePostContent {
   export interface In {
     postId: number;
     locale?: Prisma.Locale;
   }
 }
+// !SECTION
+// !SECTION
 // !SECTION
 // !SECTION

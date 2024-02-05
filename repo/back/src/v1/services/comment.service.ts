@@ -7,6 +7,8 @@ import { Logger } from "winston";
 */
 // SECTION 댓글
 // SECTION Create
+// SECTION 댓글 생성
+// SECTION Function
 /**
  * * 댓글 생성
  *
@@ -32,7 +34,8 @@ export async function createComment(
 
   return createdComment;
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace createComment {
   export interface In {
     name: string;
@@ -47,12 +50,16 @@ export namespace createComment {
   }
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Read
+// SECTION 댓글 탐색
+// SECTION Function
 /**
  * * 댓글 탐색
  *
@@ -99,7 +106,8 @@ export async function getComments(
     maxPage,
   };
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace getComments {
   export type SortBy = "oldest_first" | "youngest_first";
   export type SortDict = Record<SortBy, "desc" | "asc">;
@@ -117,12 +125,16 @@ export namespace getComments {
   }
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Update
+// SECTION 댓글 수정
+// SECTION Function
 /**
  * * 댓글 수정
  *
@@ -165,7 +177,8 @@ export async function updateComment(
     id: updatedComment.id,
   };
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace updateComment {
   export interface In {
     commentId: string;
@@ -178,12 +191,16 @@ export namespace updateComment {
   }
 }
 // !SECTION
+// !SECTION
+// !SECTION
 /*
 
 
 
 */
 // SECTION Delete
+// SECTION 댓글 삭제
+// SECTION Function
 /**
  * * 댓글 삭제
  *
@@ -235,7 +252,8 @@ export async function deleteComment(logger: Logger, In: any): Promise<any> {
     };
   }
 }
-
+// !SECTION
+// SECTION Namespace
 export namespace deleteComment {
   export interface UniqueIn {
     commentId: string;
@@ -248,5 +266,7 @@ export namespace deleteComment {
     password: boolean;
   }
 }
+// !SECTION
+// !SECTION
 // !SECTION
 // !SECTION
