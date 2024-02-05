@@ -302,7 +302,7 @@ export async function updatePost(
     select: { published: true },
   });
 
-  let publishedAt = undefined;
+  let publishedAt: Date | undefined | null = undefined;
   if (prevPost?.published !== published) {
     logger.info(
       `Post ${postId} publish state changed, also updating publishedAt to ${published ? "now" : "null"}`
@@ -567,7 +567,7 @@ export async function updatePostContent(
     select: { published: true },
   });
 
-  let publishedAt = undefined;
+  let publishedAt: Date | null | undefined = undefined;
   if (prevPostContent?.published !== published) {
     logger.info(
       `Post ${postId} content ${locale} publish state changed, also updating publishedAt to ${published ? "now" : "null"}`
